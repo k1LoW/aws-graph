@@ -8,7 +8,7 @@ Draw AWS network graph
 
 Add this line to your application's Gemfile:
 
-    gem 'aws-graph', :git => "git://github.com/k1LoW/aws-graph.git"
+    gem 'aws-graph'
 
 And then execute:
 
