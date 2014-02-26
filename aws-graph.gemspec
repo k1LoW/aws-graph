@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'aws-graph/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "aws_graph"
+  spec.name          = "aws-graph"
   spec.version       = AwsGraph::VERSION
   spec.authors       = ["k1LoW"]
   spec.email         = ["k1lowxb@gmail.com"]
