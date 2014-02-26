@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = AwsGraph::VERSION
   spec.authors       = ["k1LoW"]
   spec.email         = ["k1lowxb@gmail.com"]
-  spec.summary       = %q{Draw AWS graph tool}
-  spec.description   = %q{Draw AWS graph tool}
+  spec.summary       = %q{Draw AWS network graph with Graphviz}
+  spec.description   = %q{Draw AWS security based network graph with Graphviz}
   spec.homepage      = "https://github.com/k1LoW/aws-graph"
   spec.license       = "MIT"
 

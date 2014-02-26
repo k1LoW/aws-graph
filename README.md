@@ -1,6 +1,6 @@
 # aws-graph
 
-Draw AWS network graph
+Draw AWS network graph with Graphviz.
 
 ![sample](http://github.com/k1LoW/aws-graph/raw/master/sample.png)
 
