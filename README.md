@@ -2,6 +2,8 @@
 
 Draw AWS network graph
 
+![sample](http://github.com/k1LoW/aws-graph/raw/master/sample.png)
+
 ## Installation
 
 Add this line to your application's Gemfile:
