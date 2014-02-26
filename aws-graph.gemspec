@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.summary       = %q{Draw AWS graph tool}
   spec.description   = %q{Draw AWS graph tool}
   spec.homepage      = "https://github.com/k1LoW/aws-graph"
-  spec.license       = "GPL"
+  spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
@@ -23,5 +23,5 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "aws-sdk"
   spec.add_dependency "thor"
-  spec.add_dependency "ruby-graphviz"
+  spec.add_dependency "gviz"
 end
