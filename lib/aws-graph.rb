@@ -172,7 +172,17 @@ module AwsGraph
 
         puts ''
       end
-      gv.save(options[:output].sub(/\.png$/,''), :png)
+      filename = File.basename options[:output], ".*"
+      filepath = File.dirname options[:output]
+      fileextname = File.extname options[:output]
+      fileformat = fileextname.sub('.', '').to_sym
+      unless fileformat == :dot
+        gv.save(File.join(filepath, filename), fileformat)
+        File.delete(File.join(filepath, "#{filename}.dot"))
+      else
+        gv.save(File.join(filepath, filename), :png)
+        File.delete(File.join(filepath, "#{filename}.png"))
+      end
     end
 
     protected
