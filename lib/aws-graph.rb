@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require "aws-graph/version"
 require "thor"
 require 'aws-sdk'
@@ -39,11 +40,23 @@ module AwsGraph
 
         # Create EC2 security group cluster
         security_groups.each do | sg |
-          print "."
           cluster_id = 'cluster' + sg.id.gsub(/[-\/]/,'')
           sg_hash[sg.id] = cluster_id
+          
+          if sg.vpc_id
+            print "v"
+            color = '#4B75B9'
+            label = Util.new.label(sg.name + '[' + sg.id + ']', secret) + '[vpc]'
+            style = 'rounded,bold'
+          else
+            print "."
+            color = '#333333'
+            label = Util.new.label(sg.name + '[' + sg.id + ']', secret)
+            style = 'rounded,bold'
+          end
+          
           subgraph(cluster_id.to_sym) do
-            global label: Util.new.label(sg.name + '[' + sg.id + ']', secret), style: 'rounded'
+            global label: label, style: style, color: color
           end
         end
 
@@ -51,8 +64,19 @@ module AwsGraph
         db_security_groups[:db_security_groups].each do | db_sg |
           print "."
           cluster_id = 'cluster' + db_sg[:db_security_group_name].gsub(/[-\/]/,'')
+          if db_sg[:vpc_id]
+            print "v"
+            color = '#4B75B9'
+            label = Util.new.label(db_sg[:db_security_group_name], secret) + '[vpc]'
+            style = 'rounded,bold'
+          else
+            print "."
+            color = '#333333'
+            label = Util.new.label(db_sg[:db_security_group_name], secret)
+            style = 'rounded,bold'
+          end
           subgraph(cluster_id.to_sym) do
-            global label: Util.new.label(db_sg[:db_security_group_name], secret), style: 'rounded'
+            global label: label, style: style, color: color
           end
         end
 
