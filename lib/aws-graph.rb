@@ -90,8 +90,12 @@ module AwsGraph
           e.security_groups.each do | sg |
             print "."
             cluster_id = 'cluster' + sg.id.gsub(/[-\/]/,'')
+            label = '[' + e.id + ']'
+            e.tags.each do | t |
+              label = t[1] + '\n' + '[' + e.id + ']' if t[0] == 'Name'
+            end
             subgraph(cluster_id.to_sym) do
-              node (sg.id + e.id).gsub(/[-\/]/, '').to_sym, label: Util.new.label(e.id, secret), shape: :none, image: image_path
+              node (sg.id + e.id).gsub(/[-\/]/, '').to_sym, label: Util.new.label(label, secret), shape: :none, image: image_path
             end
           end
         end
@@ -107,8 +111,12 @@ module AwsGraph
             e.security_groups.each do | sg |
               print "v"
               cluster_id = 'cluster' + sg.id.gsub(/[-\/]/,'')
+              label = '[' + e.id + ']'
+              e.tags.each do | t |
+                label = t[1] + '\n' + '[' + e.id + ']' if t[0] == 'Name'
+              end
               subgraph(cluster_id.to_sym) do
-                node (sg.id + e.id).gsub(/[-\/]/, '').to_sym, label: Util.new.label(e.id, secret), shape: :none, image: image_path
+                node (sg.id + e.id).gsub(/[-\/]/, '').to_sym, label: Util.new.label(label, secret), shape: :none, image: image_path
               end
             end
           end
@@ -154,7 +162,7 @@ module AwsGraph
               from_cluster_id = 'cluster' + fromsg.id.gsub(/[-\/]/,'')
               to_cluster_id = 'cluster' + sg.id.gsub(/[-\/]/,'')
               route from_cluster_id.to_sym => to_cluster_id.to_sym
-              edge (from_cluster_id + '_' + to_cluster_id).to_sym, label: Util.new.label(ip.port_range.to_s + '[' + ip.protocol.to_s + ']', secret)
+              edge (from_cluster_id + '_' + to_cluster_id).to_sym, label: Util.new.label(Util.new.ip_range(ip.port_range.to_s) + '[' + ip.protocol.to_s + ']', secret)
             end
           end
         end
@@ -234,6 +242,13 @@ module AwsGraph
         return text.gsub(/[^\[\]]/,'*')
       else
         return text
+      end
+    end
+    def ip_range(ip_range)
+      if ip_range.sub(/\A[0-9]+\.\./,'') == ip_range.sub(/\.\.[0-9]+\z/,'')
+        return ip_range.sub(/\A[0-9]+\.\./,'')
+      else
+        return ip_range
       end
     end
   end
