@@ -91,7 +91,7 @@ module AwsGraph
             print "."
             cluster_id = 'cluster' + sg.id.gsub(/[-\/]/,'')
             subgraph(cluster_id.to_sym) do
-              node (sg.id + ':' + e.id).gsub(/[-\/]/, '').to_sym, label: Util.new.label(e.id, secret), shape: :none, image: image_path
+              node (sg.id + e.id).gsub(/[-\/]/, '').to_sym, label: Util.new.label(e.id, secret), shape: :none, image: image_path
             end
           end
         end
@@ -108,14 +108,13 @@ module AwsGraph
               print "v"
               cluster_id = 'cluster' + sg.id.gsub(/[-\/]/,'')
               subgraph(cluster_id.to_sym) do
-                node (sg.id + ':' + e.id).gsub(/[-\/]/, '').to_sym, label: Util.new.label(e.id, secret), shape: :none, image: image_path
+                node (sg.id + e.id).gsub(/[-\/]/, '').to_sym, label: Util.new.label(e.id, secret), shape: :none, image: image_path
               end
             end
           end
         end
 
         # Append RDS to RDS security group
-        db_instancesa = {}
         db_instances[:db_instances].each do | r |
           r[:db_security_groups].each do | db_sg |
             print "."
@@ -146,7 +145,6 @@ module AwsGraph
               print "-"
               unless sg_hash[fromsg.id]
                 # Unknown security group is amazon-elb/amazon-elb-sg
-                unknown = AWS::EC2::SecurityGroup.new(fromsg.id)
                 cluster_id = 'cluster' + fromsg.id.gsub(/[-\/]/,'')
                 sg_hash['amazon-elb/amazon-elb-sg'] = cluster_id
                 subgraph(cluster_id.to_sym) do
